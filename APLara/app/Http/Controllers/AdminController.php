@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\User;
+use App\Order;
+
+
+class AdminController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        if(\Auth::user()!=null){
+            if(\Auth::user()->id==1)
+            {
+                $users = User::orderBy('created_at','asc')->get();
+                $orders = Order::orderBy('created_at','asc')->get();
+                return view('adminControl', compact('users','orders'));
+            }
+            else{
+                return redirect()->route('/');
+            }
+        }
+        else
+        {
+            return redirect()->route('/');
+        }
+        
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $order = Order::find($id);
+        return view('adminEditForm', compact('order'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $order = Order::find($id);
+        
+        
+        $order->info = $request->info;
+        if($order->save()) {
+        return redirect()->route('adminPanel');
+        }
+        return "Wystąpił błąd.";
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $order = Order::find($id);
+        if($order->delete()){
+            return redirect()->route('adminPanel');
+            }
+            return view("Error!!");
+    }
+}

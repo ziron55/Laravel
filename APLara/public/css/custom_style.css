@@ -1,0 +1,23 @@
+body {
+    background-color: #e8e8e8;
+}
+
+.title {
+    text-align: center;
+    background-color: transparent
+}
+
+.table-container {
+    background-color: white;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+}
+
+.box-footer {
+    float: right;
+}
